@@ -1,12 +1,12 @@
-import Layout from '~/components/Layout';
-import Message from '~/components/Message';
-import MessageInput from '~/components/MessageInput';
+import Layout from '@/components/Layout';
+import Message from '@/components/Message';
+import MessageInput from '@/components/MessageInput';
 import { useRouter } from 'next/router';
-import { useStore, addMessage } from '~/lib/Store';
+import { useStore, addMessage } from '@/lib/Store';
 import { useContext, useEffect, useRef } from 'react';
-import UserContext from '~/lib/UserContext';
+import UserContext from '@/lib/UserContext';
 
-const ChannelsPage = () => {
+export default function Channel() {
   const router = useRouter();
   const { user } = useContext(UserContext);
   const messagesEndRef = useRef<HTMLDivElement | null>(null);
@@ -45,27 +45,27 @@ const ChannelsPage = () => {
 
   return (
     <Layout channels={channels} activeChannelId={channelId}>
-      <div className="relative h-screen">
-        <div className="Messages h-full pb-16">
-          <div className="p-2 overflow-y-auto">
+      <div className="relative flex h-screen flex-col bg-slate-900/60">
+        <div className="flex-1 overflow-y-auto px-6 py-8">
+          <div className="space-y-4">
             {messages.map((message) => (
               <Message key={message.id} message={message} />
             ))}
-            <div ref={messagesEndRef} style={{ height: 0 }} />
+            <div ref={messagesEndRef} />
           </div>
         </div>
-        <div className="p-2 absolute bottom-0 left-0 w-full">
-          <MessageInput
-            onSubmit={async (text) => {
-              if (user) {
-                await addMessage(text, Number(channelId), user.id);
-              }
-            }}
-          />
+        <div className="border-t border-slate-800/60 bg-slate-950/70 px-6 py-5 backdrop-blur">
+          <div className="rounded-2xl border border-slate-800/60 bg-white/5 px-4 py-3 shadow-2xl">
+            <MessageInput
+              onSubmit={async (text) => {
+                if (user) {
+                  await addMessage(text, Number(channelId), user.id);
+                }
+              }}
+            />
+          </div>
         </div>
       </div>
     </Layout>
   );
-};
-
-export default ChannelsPage;
+}

@@ -1,9 +1,9 @@
-import '~/styles/style.scss';
+import '@/styles/globals.css';
 import type { AppProps } from 'next/app';
 import { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/router';
-import UserContext, { type AppUser } from 'lib/UserContext';
-import { getSupabase } from 'lib/supabaseClient';
+import UserContext, { type AppUser } from '@/lib/UserContext';
+import { getSupabase } from '@/lib/supabaseClient';
 import { jwtDecode } from 'jwt-decode';
 import type { Session } from '@supabase/supabase-js';
 
@@ -11,7 +11,7 @@ interface AccessTokenPayload {
   user_role?: string;
 }
 
-export default function ChatApp({ Component, pageProps }: AppProps) {
+export default function App({ Component, pageProps }: AppProps) {
   const [userLoaded, setUserLoaded] = useState(false);
   const [user, setUser] = useState<AppUser | null>(null);
   const [session, setSession] = useState<Session | null>(null);

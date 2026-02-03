@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import type { RealtimeChannel, SupabaseClient } from '@supabase/supabase-js';
-import { getSupabase } from '~/lib/supabaseClient';
+import { getSupabase } from '@/lib/supabaseClient';
 
 export interface Channel {
   id: number;

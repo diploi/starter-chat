@@ -12,15 +12,6 @@ body,
 }
 .channel-list {
   li a:before {
-    content: '# ';
-    opacity: 0.5;
+    content: none;
   }
-  li a:hover {
-    opacity: 0.9;
-  }
-}
-.Messages {
-  overflow: auto;
-  display: flex;
-  flex-direction: column-reverse;
 }

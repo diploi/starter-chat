@@ -16,9 +16,9 @@ const MessageInput = ({ onSubmit }: MessageInputProps) => {
 
   return (
     <input
-      className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+      className="w-full rounded-2xl border border-slate-700 bg-slate-900/70 px-4 py-3 text-sm text-slate-100 placeholder:text-slate-400 shadow-sm transition focus:border-sky-400 focus:outline-none focus:ring-2 focus:ring-sky-400/30"
       type="text"
-      placeholder="Send a message"
+      placeholder="Share your update..."
       value={messageText}
       onChange={(e) => setMessageText(e.target.value)}
       onKeyDown={(e) => submitOnEnter(e)}
