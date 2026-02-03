@@ -1,6 +1,6 @@
 <img alt="icon" src=".diploi/icon.svg" width="32">
 
-# Chat Starter Kit for Diploi
+# Chat App Starter Kit for Diploi
 
 A Slack like chat app built with **Next.js** and **Supabase**.
 

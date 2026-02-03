@@ -1,21 +1,20 @@
 diploiVersion: v1.0
 type: starter
-name: Collaborative Drawing App
-description: A fun collaborative drawing app built with Refine and Supabase. Supports auth and realtime features. Email auth built-in.
+name: Chat App
+description: A Slack like chat app built with Next.js and Supabase.
 previewImageUrls: [preview-1.jpg, preview-2.jpg, preview-3.jpg]
 components:
-  - name: React
-    identifier: react
+  - name: Next.js
+    identifier: next
     folder: /
-    package: https://github.com/diploi/component-react-vite#v19.2.4
+    package: https://github.com/diploi/component-nextjs#v16.1.2-ports
     prebuildImage: ghcr.io/diploi/starter-web-app/react:[tag]
     env:
       include:
-        - supabase.APP_ENDPOINT:VITE_SUPABASE_URL
-        - supabase.ANON_KEY:VITE_SUPABASE_ANON_KEY
-        # Enable the "runtime build" feature to populate ENV values for prod deployments
-        - name: __VITE_RUNTIME_BUILD
-          value: true
+        - supabase.APP_ENDPOINT:NEXT_PUBLIC_SUPABASE_URL
+        - supabase.ANON_KEY:NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY
+        - react.APP_ENDPOINT:NEXT_SITE_URL
+        - react.APP_ENDPOINT:NEXT_REDIRECT_URLS
   - name: Supabase
     identifier: supabase
     package: https://github.com/diploi/component-supabase#v2026.02
