@@ -4,7 +4,7 @@ interface MessageInputProps {
   onSubmit: (messageText: string) => void | Promise<void>;
 }
 
-const MessageInput = ({ onSubmit }: MessageInputProps) => {
+export default function MessageInput({ onSubmit }: MessageInputProps) {
   const [messageText, setMessageText] = useState('');
 
   const submitOnEnter = (event: KeyboardEvent<HTMLInputElement>) => {
@@ -24,6 +24,4 @@ const MessageInput = ({ onSubmit }: MessageInputProps) => {
       onKeyDown={(e) => submitOnEnter(e)}
     />
   );
-};
-
-export default MessageInput;
+}

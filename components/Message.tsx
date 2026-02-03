@@ -11,7 +11,7 @@ interface MessageProps {
   message: MessageRecord & { author?: UserProfile | null };
 }
 
-const Message = ({ message }: MessageProps) => {
+export default function Message({ message }: MessageProps) {
   const { user } = useContext(UserContext);
 
   const canDelete =
@@ -40,6 +40,4 @@ const Message = ({ message }: MessageProps) => {
       </div>
     </div>
   );
-};
-
-export default Message;
+}

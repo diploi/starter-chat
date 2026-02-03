@@ -153,35 +153,39 @@ export const useStore = (props: {
           await fetchUser(authorId, (user) =>
             handleNewOrUpdatedUser(user ?? null),
           );
-        setMessages(messages.concat(newMessage));
+        setMessages((prev) => prev.concat(newMessage));
       };
       handleAsync();
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [newMessage]);
+  }, [newMessage, props.channelId, users]);
 
   // Deleted message received from postgres
   useEffect(() => {
     if (deletedMessage)
-      setMessages(
-        messages.filter((message) => message.id !== deletedMessage.id),
+      setMessages((prev) =>
+        prev.filter((message) => message.id !== deletedMessage.id),
       );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [deletedMessage]);
 
   // New channel received from Postgres
   useEffect(() => {
-    if (newChannel) setChannels(channels!.concat(newChannel));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    if (newChannel)
+      setChannels((prev) => {
+        const existing = prev ?? [];
+        if (existing.some((channel) => channel.id === newChannel.id)) {
+          return existing;
+        }
+        return existing.concat(newChannel);
+      });
   }, [newChannel]);
 
   // Deleted channel received from postgres
   useEffect(() => {
     if (deletedChannel)
-      setChannels(
-        channels!.filter((channel) => channel.id !== deletedChannel.id),
-      );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+      setChannels((prev) => {
+        if (!prev) return prev;
+        return prev.filter((channel) => channel.id !== deletedChannel.id);
+      });
   }, [deletedChannel]);
 
   // New or updated user received from Postgres
@@ -197,7 +201,7 @@ export const useStore = (props: {
     })),
     channels:
       channels !== null
-        ? channels.sort((a, b) => a.slug.localeCompare(b.slug))
+        ? [...channels].sort((a, b) => a.slug.localeCompare(b.slug))
         : [],
     users,
   };

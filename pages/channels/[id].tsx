@@ -17,7 +17,7 @@ export default function Channel() {
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({
-      block: 'start',
+      block: 'end',
       behavior: 'smooth',
     });
   }, [messages]);
@@ -47,7 +47,7 @@ export default function Channel() {
     <Layout channels={channels} activeChannelId={channelId}>
       <div className="relative flex h-screen flex-col bg-slate-900/60">
         <div className="flex-1 overflow-y-auto px-6 py-8">
-          <div className="space-y-4">
+          <div className="flex h-full flex-col justify-end gap-4">
             {messages.map((message) => (
               <Message key={message.id} message={message} />
             ))}
