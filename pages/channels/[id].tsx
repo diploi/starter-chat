@@ -10,6 +10,7 @@ const ChannelsPage = () => {
   const router = useRouter();
   const { user } = useContext(UserContext);
   const messagesEndRef = useRef<HTMLDivElement | null>(null);
+  const redirectingRef = useRef(false);
 
   const { id: channelId } = router.query;
   const { messages, channels } = useStore({ channelId });
@@ -22,12 +23,23 @@ const ChannelsPage = () => {
   }, [messages]);
 
   useEffect(() => {
+    if (!router.isReady) return;
     const numericChannelId = Number(channelId);
+    const channelExists = channels.some(
+      (channel) => channel.id === numericChannelId,
+    );
     if (
       Number.isFinite(numericChannelId) &&
-      !channels.some((channel) => channel.id === numericChannelId)
+      !channelExists &&
+      !redirectingRef.current
     ) {
-      router.push('/channels/1');
+      redirectingRef.current = true;
+      router
+        .replace('/channels/1')
+        .catch((error) => console.error('Channel redirect failed', error));
+    }
+    if (channelExists) {
+      redirectingRef.current = false;
     }
   }, [channels, channelId, router]);
 

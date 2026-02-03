@@ -1,6 +1,6 @@
 import '~/styles/style.scss';
 import type { AppProps } from 'next/app';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/router';
 import UserContext, { type AppUser } from 'lib/UserContext';
 import { getSupabase } from 'lib/supabaseClient';
@@ -15,6 +15,8 @@ export default function ChatApp({ Component, pageProps }: AppProps) {
   const [userLoaded, setUserLoaded] = useState(false);
   const [user, setUser] = useState<AppUser | null>(null);
   const [session, setSession] = useState<Session | null>(null);
+  const sessionRef = useRef<Session | null>(null);
+  const redirectedRef = useRef(false);
   const router = useRouter();
 
   useEffect(() => {
@@ -23,6 +25,10 @@ export default function ChatApp({ Component, pageProps }: AppProps) {
 
     const saveSession = (sessionValue: Session | null) => {
       if (!isMounted) return;
+      if (sessionRef.current?.access_token === sessionValue?.access_token) {
+        return;
+      }
+      sessionRef.current = sessionValue;
       setSession(sessionValue);
       const currentUser = (sessionValue?.user as AppUser | undefined) ?? null;
       if (sessionValue && currentUser) {
@@ -32,8 +38,16 @@ export default function ChatApp({ Component, pageProps }: AppProps) {
       setUser(currentUser);
       setUserLoaded(!!currentUser);
       if (currentUser) {
-        router.push('/channels/[id]', '/channels/1');
+        const isChannelRoute = router.pathname.startsWith('/channels');
+        if (!isChannelRoute && !redirectedRef.current) {
+          redirectedRef.current = true;
+          router.push('/channels/[id]', '/channels/1').catch((error) => {
+            console.error('Navigation failed', error);
+            redirectedRef.current = false;
+          });
+        }
       }
+      if (!currentUser) redirectedRef.current = false;
     };
 
     (async () => {
@@ -65,6 +79,7 @@ export default function ChatApp({ Component, pageProps }: AppProps) {
     const supabase = await getSupabase();
     const { error } = await supabase.auth.signOut();
     if (!error) {
+      redirectedRef.current = false;
       router.push('/');
     }
   };
