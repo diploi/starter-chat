@@ -1,0 +1,30 @@
+diploiVersion: v1.0
+type: starter
+name: Collaborative Drawing App
+description: A fun collaborative drawing app built with Refine and Supabase. Supports auth and realtime features. Email auth built-in.
+previewImageUrls: [preview-1.jpg, preview-2.jpg, preview-3.jpg]
+components:
+  - name: React
+    identifier: react
+    folder: /
+    package: https://github.com/diploi/component-react-vite#v19.2.4
+    prebuildImage: ghcr.io/diploi/starter-web-app/react:[tag]
+    env:
+      include:
+        - supabase.APP_ENDPOINT:VITE_SUPABASE_URL
+        - supabase.ANON_KEY:VITE_SUPABASE_ANON_KEY
+        # Enable the "runtime build" feature to populate ENV values for prod deployments
+        - name: __VITE_RUNTIME_BUILD
+          value: true
+  - name: Supabase
+    identifier: supabase
+    package: https://github.com/diploi/component-supabase#v2026.02
+    prebuildImage: ghcr.io/diploi/starter-web-app/supabase:[tag]
+    env:
+      include:
+        # Allow signup without email confirmation
+        - name: ENABLE_EMAIL_AUTOCONFIRM
+          value: true
+        # Allow Supabase signups to redirect to the React application
+        - react.APP_ENDPOINT:ADDITIONAL_REDIRECT_URLS
+addons: []

@@ -1,0 +1,54 @@
+<img alt="icon" src=".diploi/icon.svg" width="32">
+
+# Chat Starter Kit for Diploi
+
+A Slack like chat app built with **Next.js** and **Supabase**.
+
+This starter kit demonstrates:
+
+- 🔐 Authentication with Supabase
+- ⚡️ Next.js -powered React frontend
+- 🗄️ Supabase DB migrations and seeded data
+
+---
+
+## ✨ Overview
+
+This starter kit consists of two Diploi components:
+
+- **`next`** -- Frontend application (Next.js)
+- **`supabase`** -- Database, auth, and realtime backend
+
+Everything is wired together automatically via environment variables
+defined in `diploi.yaml`.
+
+---
+
+## 🔑 Default Login Credentials
+
+The database is seeded with a test account:
+
+Email: `supabot+supaadmin@example.com`\
+
+You can log in immediately after deployment.
+
+> ⚠️ Make sure to change or remove this account in production
+> environments.
+
+---
+
+## 🚀 Running on Diploi
+
+### Start a new project
+
+1.  Create a new project in Diploi
+2.  Select this starter kit
+3.  Deploy
+
+Diploi automatically:
+
+- Connects Supabase to Next.js
+- Injects environment variables
+- Configures networking
+- Builds production images
+- Enables edge delivery via Cloudflare
