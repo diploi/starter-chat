@@ -28,7 +28,8 @@ defined in `diploi.yaml`.
 
 The database is seeded with a test account:
 
-Email: `supabot+supaadmin@example.com`\
+Email: `test@example.com`\
+Password: `password`
 
 You can log in immediately after deployment.
 

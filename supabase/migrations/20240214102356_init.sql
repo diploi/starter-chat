@@ -92,22 +92,15 @@ alter table public.users replica identity full;
 alter table public.channels replica identity full; 
 alter table public.messages replica identity full;
 
--- inserts a row into public.users and assigns roles
-create function public.handle_new_user() 
+-- inserts or updates the matching profile record in public.users
+create function public.handle_new_user()
 returns trigger as $$
-declare is_admin boolean;
 begin
   insert into public.users (id, username)
-  values (new.id, new.email);
-  
-  select count(*) = 1 from auth.users into is_admin;
-  
-  if position('+supaadmin@' in new.email) > 0 then
-    insert into public.user_roles (user_id, role) values (new.id, 'admin');
-  elsif position('+supamod@' in new.email) > 0 then
-    insert into public.user_roles (user_id, role) values (new.id, 'moderator');
-  end if;
-  
+  values (new.id, new.email)
+  on conflict (id)
+  do update set username = excluded.username;
+
   return new;
 end;
 $$ language plpgsql security definer set search_path = auth, public;
@@ -134,27 +127,3 @@ commit;
 alter publication supabase_realtime add table public.channels;
 alter publication supabase_realtime add table public.messages;
 alter publication supabase_realtime add table public.users;
-
-/**
- * HELPER FUNCTIONS
- * Create test user helper method.
- */
-create or replace function public.create_user(
-    email text
-) returns uuid
-    security definer
-    set search_path = auth
-as $$
-  declare
-  user_id uuid;
-begin
-  user_id := extensions.uuid_generate_v4();
-  
-  insert into auth.users (id, email)
-    values (user_id, email)
-    returning id into user_id;
-
-    return user_id;
-end;
-$$ language plpgsql;
-
