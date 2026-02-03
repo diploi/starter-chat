@@ -8,7 +8,7 @@ components:
     identifier: next
     folder: /
     package: https://github.com/diploi/component-nextjs#v16.1.2-ports
-    prebuildImage: ghcr.io/diploi/starter-web-app/react:[tag]
+    prebuildImage: ghcr.io/diploi/starter-chat/next:[tag]
     env:
       include:
         - supabase.APP_ENDPOINT:NEXT_PUBLIC_SUPABASE_URL
@@ -18,7 +18,7 @@ components:
   - name: Supabase
     identifier: supabase
     package: https://github.com/diploi/component-supabase#v2026.02
-    prebuildImage: ghcr.io/diploi/starter-web-app/supabase:[tag]
+    prebuildImage: ghcr.io/diploi/starter-chat/supabase:[tag]
     env:
       include:
         # Allow signup without email confirmation
