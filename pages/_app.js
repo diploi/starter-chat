@@ -1,54 +1,56 @@
-import '~/styles/style.scss'
-import React, { useState, useEffect } from 'react'
-import { useRouter } from 'next/router'
-import UserContext from 'lib/UserContext'
-import { supabase } from 'lib/Store'
-import { jwtDecode } from 'jwt-decode'
+import '~/styles/style.scss';
+import React, { useState, useEffect } from 'react';
+import { useRouter } from 'next/router';
+import UserContext from 'lib/UserContext';
+import { supabase } from 'lib/Store';
+import { jwtDecode } from 'jwt-decode';
 
-export default function SupabaseSlackClone({ Component, pageProps }) {
-  const [userLoaded, setUserLoaded] = useState(false)
-  const [user, setUser] = useState(null)
-  const [session, setSession] = useState(null)
-  const router = useRouter()
+export default function ChatApp({ Component, pageProps }) {
+  const [userLoaded, setUserLoaded] = useState(false);
+  const [user, setUser] = useState(null);
+  const [session, setSession] = useState(null);
+  const router = useRouter();
 
   useEffect(() => {
     function saveSession(
       /** @type {Awaited<ReturnType<typeof supabase.auth.getSession>>['data']['session']} */
-      session
+      session,
     ) {
-      setSession(session)
-      const currentUser = session?.user
+      setSession(session);
+      const currentUser = session?.user;
       if (session) {
-        const jwt = jwtDecode(session.access_token)
-        currentUser.appRole = jwt.user_role
+        const jwt = jwtDecode(session.access_token);
+        currentUser.appRole = jwt.user_role;
       }
-      setUser(currentUser ?? null)
-      setUserLoaded(!!currentUser)
+      setUser(currentUser ?? null);
+      setUserLoaded(!!currentUser);
       if (currentUser) {
-        router.push('/channels/[id]', '/channels/1')
+        router.push('/channels/[id]', '/channels/1');
       }
     }
 
-    supabase.auth.getSession().then(({ data: { session } }) => saveSession(session))
+    supabase.auth
+      .getSession()
+      .then(({ data: { session } }) => saveSession(session));
 
     const { subscription: authListener } = supabase.auth.onAuthStateChange(
       async (event, session) => {
-        console.log(session)
-        saveSession(session)
-      }
-    )
+        console.log(session);
+        saveSession(session);
+      },
+    );
 
     return () => {
-      authListener.unsubscribe()
-    }
-  }, [])
+      authListener.unsubscribe();
+    };
+  }, []);
 
   const signOut = async () => {
-    const { error } = await supabase.auth.signOut()
+    const { error } = await supabase.auth.signOut();
     if (!error) {
-      router.push('/')
+      router.push('/');
     }
-  }
+  };
 
   return (
     <UserContext.Provider
@@ -60,5 +62,5 @@ export default function SupabaseSlackClone({ Component, pageProps }) {
     >
       <Component {...pageProps} />
     </UserContext.Provider>
-  )
+  );
 }

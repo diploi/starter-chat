@@ -1,7 +1,3 @@
---
--- For use with https://github.com/supabase/supabase/tree/master/examples/slack-clone/nextjs-slack-clone
---
-
 -- Custom types
 create type public.app_permission as enum ('channels.delete', 'messages.delete');
 create type public.app_role as enum ('admin', 'moderator');
