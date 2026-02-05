@@ -48,4 +48,6 @@ BEGIN
         ('Hello World 👋', 1, user_id),
         ('Perfection is attained, not when there is nothing more to add, but when there is nothing left to take away.', 2, user_id);
 END $$;
-  
+
+-- Drop the helper function
+DROP FUNCTION IF EXISTS public.create_user;
