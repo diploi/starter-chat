@@ -30,6 +30,17 @@ export default function App({ Component, pageProps }: AppProps) {
       }
       sessionRef.current = sessionValue;
       setSession(sessionValue);
+
+      // Ensure realtime connections use the latest JWT so channel subscriptions deliver events
+      void (async () => {
+        try {
+          const supabase = await getSupabase();
+          supabase.realtime.setAuth(sessionValue?.access_token ?? '');
+        } catch (error) {
+          console.error('Failed to update realtime auth token', error);
+        }
+      })();
+
       const currentUser = (sessionValue?.user as AppUser | undefined) ?? null;
       if (sessionValue && currentUser) {
         const jwt = jwtDecode<AccessTokenPayload>(sessionValue.access_token);
@@ -79,6 +90,7 @@ export default function App({ Component, pageProps }: AppProps) {
     const supabase = await getSupabase();
     const { error } = await supabase.auth.signOut();
     if (!error) {
+      supabase.realtime.setAuth('');
       redirectedRef.current = false;
       router.push('/');
     }
