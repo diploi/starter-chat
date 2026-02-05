@@ -51,8 +51,7 @@ FROM base AS runner
 COPY --from=builder --chown=1000:1000 /app /app
 WORKDIR ${FOLDER}
 
-# NOTE! We default to this now, production needs to be solved later
-ENV NODE_ENV=development
+ENV NODE_ENV=production
 
 # Uncomment the following line in case you want to disable telemetry during runtime.
 # ENV NEXT_TELEMETRY_DISABLED=1
