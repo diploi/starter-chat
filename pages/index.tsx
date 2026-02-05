@@ -56,7 +56,13 @@ export default function Home() {
               </p>
             </header>
 
-            <div className="space-y-5">
+            <form
+              className="space-y-5"
+              onSubmit={(e) => {
+                e.preventDefault();
+                handleLogin('LOGIN', username, password);
+              }}
+            >
               <label className="block space-y-2 text-sm">
                 <span className="font-medium text-slate-100">Email</span>
                 <input
@@ -78,24 +84,23 @@ export default function Home() {
                   onChange={(e) => setPassword(e.target.value)}
                 />
               </label>
-            </div>
 
-            <div className="space-y-3">
-              <button
-                type="button"
-                onClick={() => handleLogin('LOGIN', username, password)}
-                className="w-full rounded-2xl bg-sky-400 px-4 py-3 text-center font-semibold text-slate-950 transition hover:bg-sky-300 focus:outline-none focus:ring-2 focus:ring-sky-400/40"
-              >
-                Log in
-              </button>
-              <button
-                type="button"
-                onClick={() => handleLogin('SIGNUP', username, password)}
-                className="w-full rounded-2xl border border-slate-700 bg-transparent px-4 py-3 text-center font-semibold text-slate-100 transition hover:border-sky-400/60 hover:bg-white/5 focus:outline-none focus:ring-2 focus:ring-sky-400/30"
-              >
-                Create an account
-              </button>
-            </div>
+              <div className="space-y-3">
+                <button
+                  type="submit"
+                  className="w-full rounded-2xl bg-sky-400 px-4 py-3 text-center font-semibold text-slate-950 transition hover:bg-sky-300 focus:outline-none focus:ring-2 focus:ring-sky-400/40"
+                >
+                  Log in
+                </button>
+                <button
+                  type="button"
+                  onClick={() => handleLogin('SIGNUP', username, password)}
+                  className="w-full rounded-2xl border border-slate-700 bg-transparent px-4 py-3 text-center font-semibold text-slate-100 transition hover:border-sky-400/60 hover:bg-white/5 focus:outline-none focus:ring-2 focus:ring-sky-400/30"
+                >
+                  Create an account
+                </button>
+              </div>
+            </form>
           </div>
         </div>
       </div>

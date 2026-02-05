@@ -13,7 +13,7 @@ export default function Channel() {
   const redirectingRef = useRef(false);
 
   const { id: channelId } = router.query;
-  const { messages, channels } = useStore({ channelId });
+  const { messages, channels } = useStore({ channelId, userId: user?.id });
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({

@@ -37,6 +37,7 @@ export interface UseStoreResult {
  */
 export const useStore = (props: {
   channelId?: number | string | string[];
+  userId?: string | null;
 }): UseStoreResult => {
   const [channels, setChannels] = useState<Channel[] | null>([]);
   const [messages, setMessages] = useState<MessageRecord[]>([]);
@@ -58,6 +59,9 @@ export const useStore = (props: {
     let userChannel: RealtimeChannel | null = null;
     let channelChannel: RealtimeChannel | null = null;
 
+    // Use unique channel names to avoid conflicts on re-subscription
+    const subscriptionId = Math.random().toString(36).substring(2, 9);
+
     const applyChannels = (data: Channel[] | null) => {
       if (isMounted) {
         setChannels(data);
@@ -72,7 +76,7 @@ export const useStore = (props: {
 
         // Listen for new and deleted messages
         messageChannel = supabaseClient
-          .channel('public:messages')
+          .channel(`public:messages:${subscriptionId}`)
           .on(
             'postgres_changes',
             { event: 'INSERT', schema: 'public', table: 'messages' },
@@ -87,7 +91,7 @@ export const useStore = (props: {
 
         // Listen for changes to our users
         userChannel = supabaseClient
-          .channel('public:users')
+          .channel(`public:users:${subscriptionId}`)
           .on(
             'postgres_changes',
             { event: '*', schema: 'public', table: 'users' },
@@ -97,7 +101,7 @@ export const useStore = (props: {
 
         // Listen for new and deleted channels
         channelChannel = supabaseClient
-          .channel('public:channels')
+          .channel(`public:channels:${subscriptionId}`)
           .on(
             'postgres_changes',
             { event: 'INSERT', schema: 'public', table: 'channels' },
@@ -123,7 +127,7 @@ export const useStore = (props: {
         if (channelChannel) supabaseClient.removeChannel(channelChannel);
       }
     };
-  }, []);
+  }, [props.userId]);
 
   // Update when the route changes
   useEffect(() => {
