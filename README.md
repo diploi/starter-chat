@@ -53,3 +53,12 @@ Diploi automatically:
 - Configures networking
 - Builds production images
 - Enables edge delivery via Cloudflare
+
+---
+
+## 💡 About Supabase
+
+This project is originally based on the [nextjs-slack-clone](https://github.com/supabase/supabase/tree/master/examples/slack-clone/nextjs-slack-clone) and adapted for Diploi deployments.
+
+Supabase is the Postgres development platform:\
+https://supabase.com/

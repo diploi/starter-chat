@@ -1,7 +1,7 @@
 diploiVersion: v1.0
 type: starter
 name: Chat App
-description: A Slack like chat app built with Next.js and Supabase.
+description: A Slack like chat app built with Next.js and Supabase. Supports auth and realtime features. Email auth built-in.
 previewImageUrls: [preview-1.jpg, preview-2.jpg, preview-3.jpg]
 components:
   - name: Next.js
