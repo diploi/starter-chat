@@ -2,6 +2,10 @@
 
 # Chat App Starter Kit for Diploi
 
+[![launch with diploi badge](https://diploi.com/launch.svg)](https://diploi.com/starter-kit/chat)
+[![component on diploi badge](https://diploi.com/component.svg)](https://diploi.com/starter-kit/chat)
+[![latest tag badge](https://badgen.net/github/tag/diploi/starter-chat)](https://diploi.com/starter-kit/chat)
+
 A Slack like chat app built with **Next.js** and **Supabase**.
 
 This starter kit demonstrates:
